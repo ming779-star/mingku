@@ -3,518 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>设备监控面板</title>
+    <title>化工控制实训装置 - 产品说明书</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; line-height: 1.6; color: #333; }
+        
+        /* 导航栏样式 */
+        nav {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #ffffff;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #00d4ff;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-
-        .header p {
-            color: #8892b0;
-            margin-top: 5px;
-            font-size: 14px;
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.15);
-        }
-
-        .card-header {
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
         }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #a8b3cf;
+        .logo {
+            color: #fff;
+            font-size: 1.5em;
+            font-weight: bold;
         }
-
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+        .nav-links {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
+            list-style: none;
         }
-
-        .card-icon.temp {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+        .nav-links li {
+            margin-left: 30px;
         }
-
-        .card-icon.light {
-            background: linear-gradient(135deg, #ffd93d, #f0c808);
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
         }
-
-        .card-icon.power {
-            background: linear-gradient(135deg, #6bcb77, #4caf50);
-        }
-
-        .card-icon.humidity {
-            background: linear-gradient(135deg, #4dabf7, #228be6);
-        }
-
-        .card-icon.co2 {
-            background: linear-gradient(135deg, #be4bdb, #9775fa);
-        }
-
-        .card-icon.activity {
-            background: linear-gradient(135deg, #ffa8a8, #ff6b6b);
-        }
-
-        .value-display {
-            display: flex;
-            align-items: baseline;
-            gap: 5px;
-        }
-
-        .value {
-            font-size: 48px;
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        .unit {
-            font-size: 18px;
-            color: #8892b0;
-        }
-
-        .progress-bar {
-            margin-top: 16px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease, background 0.5s ease;
-        }
-
-        .progress-fill.temp {
-            background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
-        }
-
-        .progress-fill.light {
-            background: linear-gradient(90deg, #ffd93d, #f0c808);
-        }
-
-        .progress-fill.humidity {
-            background: linear-gradient(90deg, #4dabf7, #228be6);
-        }
-
-        .progress-fill.co2 {
-            background: linear-gradient(90deg, #be4bdb, #9775fa);
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 12px;
-        }
-
-        .status-badge.online {
-            background: rgba(107, 203, 119, 0.2);
-            color: #6bcb77;
-        }
-
-        .status-badge.offline {
-            background: rgba(238, 90, 90, 0.2);
-            color: #ee5a5a;
-        }
-
-        .status-badge.warning {
-            background: rgba(255, 217, 61, 0.2);
-            color: #ffd93d;
-        }
-
-        .switch-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 10px;
-        }
-
-        .switch-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-
-        .switch-label {
-            font-size: 14px;
-            color: #a8b3cf;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 48px;
-            height: 26px;
-            cursor: pointer;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.2);
-            transition: 0.3s;
-            border-radius: 26px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 3px;
-            bottom: 3px;
-            background: white;
-            transition: 0.3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .toggle-slider {
-            background: linear-gradient(135deg, #6bcb77, #4caf50);
-        }
-
-        input:checked + .toggle-slider:before {
-            transform: translateX(22px);
-        }
-
-        .activity-list {
-            margin-top: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .activity-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-        }
-
-        .activity-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #6bcb77;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .activity-text {
-            font-size: 13px;
-            color: #a8b3cf;
-            flex: 1;
-        }
-
-        .activity-time {
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #6b7280;
-            font-size: 13px;
-        }
-
-        .update-time {
+        .nav-links a:hover, .nav-links a.active {
             color: #00d4ff;
-            font-weight: 500;
+        }
+
+        /* 页面内容 */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 3em; margin-bottom: 15px; }
+        .hero p { font-size: 1.3em; opacity: 0.9; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .section { background: #fff; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 5px 25px rgba(0,0,0,0.08); }
+        .section h2 { color: #2c3e50; font-size: 2em; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 4px solid #667eea; }
+        
+        /* 产品图片 */
+        .product-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+        .product-img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+        }
+        .product-img:hover { transform: scale(1.02); }
+        .product-desc { text-align: justify; font-size: 1.1em; line-height: 1.8; color: #555; }
+        
+        /* 特性卡片 */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+        }
+        .feature-card h3 { font-size: 1.4em; margin-bottom: 15px; }
+        .feature-card p { opacity: 0.9; line-height: 1.6; }
+        .feature-icon { font-size: 2.5em; margin-bottom: 15px; }
+        
+        /* 技术参数表格 */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .specs-table th, .specs-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .specs-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .specs-table tr:hover { background: #f8f9fa; }
+        
+        /* 实训项目 */
+        .training-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .training-item {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+        }
+        .training-item h4 { color: #2c3e50; margin-bottom: 10px; }
+        .training-item ul { margin-left: 20px; color: #666; }
+        
+        /* 页脚 */
+        footer {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+        footer p { opacity: 0.8; }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; }
+            .nav-links { margin-top: 15px; }
+            .nav-links li { margin-left: 15px; margin-right: 15px; }
+            .hero h1 { font-size: 2em; }
+            .product-showcase { grid-template-columns: 1fr; }
+            .training-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>📡 设备监控面板</h1>
-        <p>实时监控 · 智能控制 · 数据可视化</p>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">华创科教</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">产品说明书</a></li>
+                <li><a href="about.html">关于我们</a></li>
+                <li><a href="products.html">产品中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 首页横幅 -->
+    <div class="hero">
+        <h1>化工控制实训装置</h1>
+        <p>HC-KZ-2024 型 | 高等职业教育实训设备</p>
     </div>
 
-    <div class="dashboard">
-        <!-- 温度传感器 -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">温度传感器</span>
-                <div class="card-icon temp">🌡️</div>
+    <div class="container">
+        <!-- 产品概述 -->
+        <section class="section">
+            <h2>产品概述</h2>
+            <div class="product-showcase">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="化工控制实训装置" class="product-img">
+                <div class="product-desc">
+                    <p><strong>HC-KZ-2024 型化工控制实训装置</strong>是专为高等职业院校化工、自动化等专业设计的综合性实训设备。该装置模拟了典型的化工生产过程，集成了温度、压力、流量、液位等多种参数的检测与控制，可完成多种控制策略的实训教学，是培养化工自动化技术人才的理想设备。</p>
+                    <br>
+                    <p>装置采用模块化设计，结构紧凑，操作方便，配套完善的实训指导书和教学课件，满足从基础到综合的多层次教学需求。</p>
+                </div>
             </div>
-            <div class="value-display">
-                <span class="value" id="temp-value">23</span>
-                <span class="unit">°C</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill temp" id="temp-progress" style="width: 46%"></div>
-            </div>
-            <span class="status-badge online">
-                <span>●</span> 在线
-            </span>
-        </div>
+        </section>
 
-        <!-- 光照传感器 -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">光照强度</span>
-                <div class="card-icon light">☀️</div>
+        <!-- 功能特点 -->
+        <section class="section">
+            <h2>功能特点</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>真实工业场景</h3>
+                    <p>模拟真实化工生产流程，涵盖精馏、反应、传热等典型单元操作，让学生感受真实工业环境。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>多参数检测</h3>
+                    <p>支持温度、压力、流量、液位等多种过程参数的实时检测与显示，数据准确可靠。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>多种控制模式</h3>
+                    <p>支持 PID 控制、串级控制、比值控制等多种先进控制策略，满足不同教学需求。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>智能监控</h3>
+                    <p>配套上位机监控软件，实现生产过程的可视化管理，提升实训效果。</p>
+                </div>
             </div>
-            <div class="value-display">
-                <span class="value" id="light-value">680</span>
-                <span class="unit">lux</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill light" id="light-progress" style="width: 68%"></div>
-            </div>
-            <span class="status-badge online">
-                <span>●</span> 在线
-            </span>
-        </div>
+        </section>
 
-        <!-- 湿度传感器 -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">湿度传感器</span>
-                <div class="card-icon humidity">💧</div>
-            </div>
-            <div class="value-display">
-                <span class="value" id="humidity-value">45</span>
-                <span class="unit">%</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill humidity" id="humidity-progress" style="width: 45%"></div>
-            </div>
-            <span class="status-badge online">
-                <span>●</span> 在线
-            </span>
-        </div>
+        <!-- 技术参数 -->
+        <section class="section">
+            <h2>技术参数</h2>
+            <table class="specs-table">
+                <thead>
+                    <tr><th>参数类别</th><th>规格型号</th><th>技术指标</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>温度控制</td><td>PT100 传感器</td><td>室温 ~ 150°C，精度 ±0.5%</td></tr>
+                    <tr><td>压力检测</td><td>扩散硅变送器</td><td>0 ~ 1.0 MPa，精度 ±0.25%</td></tr>
+                    <tr><td>流量测量</td><td>电磁流量计</td><td>0 ~ 100 L/h，精度 ±1%</td></tr>
+                    <tr><td>液位控制</td><td>超声波液位计</td><td>0 ~ 500 mm，精度 ±5 mm</td></tr>
+                    <tr><td>电源要求</td><td>AC 220V</td><td>50Hz，功率 2.5kW</td></tr>
+                    <tr><td>设备尺寸</td><td>立式框架</td><td>1800×800×600 mm</td></tr>
+                </tbody>
+            </table>
+        </section>
 
-        <!-- CO2传感器 -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">CO₂ 浓度</span>
-                <div class="card-icon co2">🌬️</div>
+        <!-- 实训项目 -->
+        <section class="section">
+            <h2>实训项目</h2>
+            <div class="training-grid">
+                <div class="training-item">
+                    <h4>基础实训项目</h4>
+                    <ul>
+                        <li>温度单回路 PID 控制</li>
+                        <li>压力单回路 PID 控制</li>
+                        <li>流量比值控制</li>
+                        <li>液位定值控制</li>
+                    </ul>
+                </div>
+                <div class="training-item">
+                    <h4>综合实训项目</h4>
+                    <ul>
+                        <li>精馏塔温度-流量串级控制</li>
+                        <li>反应釜多变量协调控制</li>
+                        <li>基于 PLC 的过程控制系统设计</li>
+                        <li>上位机组态与监控系统开发</li>
+                    </ul>
+                </div>
             </div>
-            <div class="value-display">
-                <span class="value" id="co2-value">420</span>
-                <span class="unit">ppm</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill co2" id="co2-progress" style="width: 42%"></div>
-            </div>
-            <span class="status-badge online">
-                <span>●</span> 在线
-            </span>
-        </div>
+        </section>
 
-        <!-- 设备控制 -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">设备控制</span>
-                <div class="card-icon power">🔌</div>
+        <!-- 售后服务 -->
+        <section class="section">
+            <h2>售后服务</h2>
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px;">
+                <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>生产厂家：</strong>华创科教设备有限公司</p>
+                <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>联系电话：</strong>400-888-8888</p>
+                <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>电子邮箱：</strong>service@huachuang-edu.com</p>
+                <p style="font-size: 1.1em;"><strong>售后服务：</strong>提供一年质保，终身技术支持，免费安装调试及操作培训</p>
             </div>
-            <div class="switch-container">
-                <div class="switch-item">
-                    <span class="switch-label">空调</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="ac-switch">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="switch-item">
-                    <span class="switch-label">灯光</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="light-switch" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="switch-item">
-                    <span class="switch-label">加湿器</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="humidifier-switch">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="switch-item">
-                    <span class="switch-label">净化器</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="purifier-switch" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <!-- 活动日志 -->
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">活动日志</span>
-                <div class="card-icon activity">📝</div>
-            </div>
-            <div class="activity-list" id="activity-list">
-                <div class="activity-item">
-                    <div class="activity-dot"></div>
-                    <span class="activity-text">净化器已开启</span>
-                    <span class="activity-time">2分钟前</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-dot"></div>
-                    <span class="activity-text">光照强度变化</span>
-                    <span class="activity-time">5分钟前</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-dot"></div>
-                    <span class="activity-text">温度传感器更新</span>
-                    <span class="activity-time">8分钟前</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-dot"></div>
-                    <span class="activity-text">灯光已开启</span>
-                    <span class="activity-time">15分钟前</span>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
 
-    <div class="footer">
-        数据更新时间：<span class="update-time" id="update-time">刚刚</span>
-    </div>
-
-    <script>
-        // 模拟传感器数据更新
-        function updateSensorData() {
-            // 温度 18-35°C
-            const temp = Math.floor(Math.random() * 18) + 18;
-            document.getElementById('temp-value').textContent = temp;
-            document.getElementById('temp-progress').style.width = `${((temp - 10) / 40) * 100}%`;
-
-            // 光照 0-1000 lux
-            const light = Math.floor(Math.random() * 800) + 200;
-            document.getElementById('light-value').textContent = light;
-            document.getElementById('light-progress').style.width = `${light / 10}%`;
-
-            // 湿度 30-70%
-            const humidity = Math.floor(Math.random() * 41) + 30;
-            document.getElementById('humidity-value').textContent = humidity;
-            document.getElementById('humidity-progress').style.width = `${humidity}%`;
-
-            // CO2 350-1000 ppm
-            const co2 = Math.floor(Math.random() * 400) + 350;
-            document.getElementById('co2-value').textContent = co2;
-            document.getElementById('co2-progress').style.width = `${(co2 / 10)}%`;
-
-            // 更新时间
-            const now = new Date();
-            const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-            document.getElementById('update-time').textContent = timeStr;
-        }
-
-        // 开关控制事件
-        const switches = ['ac-switch', 'light-switch', 'humidifier-switch', 'purifier-switch'];
-        const deviceNames = {
-            'ac-switch': '空调',
-            'light-switch': '灯光',
-            'humidifier-switch': '加湿器',
-            'purifier-switch': '净化器'
-        };
-
-        switches.forEach(switchId => {
-            document.getElementById(switchId).addEventListener('change', function(e) {
-                const deviceName = deviceNames[switchId];
-                const status = e.target.checked ? '开启' : '关闭';
-                
-                // 添加活动日志
-                const activityList = document.getElementById('activity-list');
-                const newItem = document.createElement('div');
-                newItem.className = 'activity-item';
-                newItem.innerHTML = `
-                    <div class="activity-dot"></div>
-                    <span class="activity-text">${deviceName}已${status}</span>
-                    <span class="activity-time">刚刚</span>
-                `;
-                activityList.insertBefore(newItem, activityList.firstChild);
-                
-                // 保持最多4条日志
-                while (activityList.children.length > 4) {
-                    activityList.removeChild(activityList.lastChild);
-                }
-            });
-        });
-
-        // 定时更新传感器数据（每5秒）
-        setInterval(updateSensorData, 5000);
-
-        // 初始化
-        updateSensorData();
-    </script>
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2024 华创科教设备有限公司 | 化工控制实训装置产品说明书</p>
+    </footer>
 </body>
 </html>

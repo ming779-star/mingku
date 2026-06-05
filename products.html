@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品中心 - 华创科教</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; line-height: 1.6; color: #333; }
+        
+        /* 导航栏样式 */
+        nav {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            color: #fff;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #ff6b6b;
+        }
+
+        /* 页面内容 */
+        .hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 3em; margin-bottom: 15px; }
+        .hero p { font-size: 1.3em; opacity: 0.9; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .section { background: #fff; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 5px 25px rgba(0,0,0,0.08); }
+        .section h2 { color: #2c3e50; font-size: 2em; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 4px solid #ff6b6b; }
+        
+        /* 产品分类 */
+        .category-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+        .tab {
+            padding: 12px 30px;
+            background: none;
+            border: none;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-right: 10px;
+            border-radius: 8px 8px 0 0;
+            transition: background 0.3s;
+        }
+        .tab.active {
+            background: #ff6b6b;
+            color: white;
+        }
+        .tab:hover { background: #ffebee; }
+        
+        /* 产品卡片 */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 20px;
+        }
+        .product-title {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .product-desc {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .product-price {
+            color: #ff6b6b;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .product-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: transform 0.3s;
+        }
+        .product-btn:hover { transform: scale(1.05); }
+        
+        /* 热销产品 */
+        .hot-badge {
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            float: right;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+        footer p { opacity: 0.8; }
+        
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; }
+            .nav-links { margin-top: 15px; }
+            .nav-links li { margin-left: 15px; margin-right: 15px; }
+            .hero h1 { font-size: 2em; }
+            .category-tabs { flex-wrap: wrap; }
+            .tab { margin-bottom: 5px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">华创科教</div>
+            <ul class="nav-links">
+                <li><a href="index.html">产品说明书</a></li>
+                <li><a href="about.html">关于我们</a></li>
+                <li><a href="products.html" class="active">产品中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 页面横幅 -->
+    <div class="hero">
+        <h1>产品中心</h1>
+        <p>专业实训设备，助力职业教育</p>
+    </div>
+
+    <div class="container">
+        <!-- 产品分类 -->
+        <section class="section">
+            <h2>产品分类</h2>
+            <div class="category-tabs">
+                <button class="tab active">全部产品</button>
+                <button class="tab">化工实训</button>
+                <button class="tab">自动化</button>
+                <button class="tab">机电设备</button>
+            </div>
+
+            <!-- 产品展示 -->
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop" alt="化工控制实训装置" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">化工控制实训装置 <span class="hot-badge">热销</span></h3>
+                        <p class="product-desc">模拟真实化工生产流程，集成温度、压力、流量、液位等多参数检测与控制。</p>
+                        <p class="product-price">询价</p>
+                        <a href="index.html" class="product-btn">查看详情</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=400&h=250&fit=crop" alt="PLC实训装置" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">PLC综合实训装置</h3>
+                        <p class="product-desc">基于西门子/三菱PLC，涵盖逻辑控制、运动控制、网络通信等实训项目。</p>
+                        <p class="product-price">询价</p>
+                        <a href="#" class="product-btn">查看详情</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop" alt="工业机器人实训台" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">工业机器人实训台 <span class="hot-badge">新品</span></h3>
+                        <p class="product-desc">六轴工业机器人，支持示教编程、离线编程，适用于焊接、搬运等实训。</p>
+                        <p class="product-price">询价</p>
+                        <a href="#" class="product-btn">查看详情</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop" alt="过程控制实验装置" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">过程控制实验装置</h3>
+                        <p class="product-desc">集成多种过程控制对象，支持PID、串级、前馈等控制策略实验。</p>
+                        <p class="product-price">询价</p>
+                        <a href="#" class="product-btn">查看详情</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1544244015-f0f14671d8a6?w=400&h=250&fit=crop" alt="电气控制实训台" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">电气控制实训台</h3>
+                        <p class="product-desc">涵盖电机控制、继电器逻辑、变频器应用等电气控制实训项目。</p>
+                        <p class="product-price">询价</p>
+                        <a href="#" class="product-btn">查看详情</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop" alt="DCS分布式控制系统" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">DCS分布式控制系统</h3>
+                        <p class="product-desc">工业级分布式控制系统，支持多回路控制和上位机监控。</p>
+                        <p class="product-price">询价</p>
+                        <a href="#" class="product-btn">查看详情</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 定制服务 -->
+        <section class="section">
+            <h2>定制服务</h2>
+            <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 30px; border-radius: 15px; text-align: center;">
+                <h3 style="color: #e65100; margin-bottom: 15px;">专业定制解决方案</h3>
+                <p style="font-size: 1.1em; color: #555; margin-bottom: 20px;">
+                    根据您的教学需求，我们提供个性化的实训设备定制服务，包括设备选型、方案设计、安装调试等一站式服务。
+                </p>
+                <a href="#" style="display: inline-block; background: #ff6b6b; color: white; padding: 12px 40px; border-radius: 25px; text-decoration: none; font-size: 1.1em;">
+                    联系我们
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2024 华创科教设备有限公司 | 产品中心</p>
+    </footer>
+</body>
+</html>
