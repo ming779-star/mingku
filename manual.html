@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>化工控制实训装置 - 使用手册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        nav {
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+        nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+        nav a:hover {
+            background: rgba(138, 43, 226, 0.3);
+            color: #bf9eff;
+            transform: translateY(-2px);
+        }
+        .active {
+            background: rgba(138, 43, 226, 0.4);
+            color: #bf9eff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 5%;
+        }
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #bf9eff, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .section {
+            background: rgba(30, 20, 60, 0.6);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            color: #bf9eff;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section h2::before {
+            content: '▸';
+            color: #ff6b9d;
+        }
+        .section h3 {
+            color: #ff6b9d;
+            margin: 1.5rem 0 1rem;
+            font-size: 1.2rem;
+        }
+        .section p {
+            color: #a0a0a0;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .section ul, .section ol {
+            color: #a0a0a0;
+            line-height: 2;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .step-box {
+            background: rgba(138, 43, 226, 0.1);
+            border-left: 4px solid #bf9eff;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+        .warning {
+            background: rgba(255, 107, 157, 0.1);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #ff6b9d;
+        }
+        .code-block {
+            background: #0a0a1a;
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            border-radius: 10px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+        .mqtt-topic {
+            color: #bf9eff;
+        }
+        .mqtt-value {
+            color: #00ff00;
+        }
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .flow-node {
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: #bf9eff;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(26, 10, 46, 0.8);
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="product.html">产品说明书</a></li>
+            <li><a href="manual.html" class="active">使用手册</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>使用手册</h1>
+
+        <div class="section">
+            <h2>初次使用</h2>
+            <ol>
+                <li>将设备连接到 5V 电源适配器</li>
+                <li>设备通电后自动启动，显示屏显示启动信息</li>
+                <li>按 KEY1 按键启动系统</li>
+                <li>等待设备扫描 WiFi 网络（约 5 秒）</li>
+                <li>在显示屏上选择目标 WiFi 并输入密码连接</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>操作指南</h2>
+            <h3>1. 系统开关 (KEY1)</h3>
+            <div class="step-box">
+                <strong>操作：</strong>按一下 KEY1<br>
+                <strong>功能：</strong>控制整个系统的开启与关闭
+            </div>
+
+            <h3>2. 模式切换 (KEY2)</h3>
+            <div class="step-box">
+                <strong>操作：</strong>长按 KEY2 超过 2 秒<br>
+                <strong>功能：</strong>在手动模式和自动模式之间切换
+            </div>
+
+            <h3>3. 手动模式控制 (KEY2)</h3>
+            <p>在手动模式下，短按 KEY2 可循环切换四种状态：</p>
+            <ul>
+                <li><strong>状态 00：</strong>灯光 OFF，风扇 OFF</li>
+                <li><strong>状态 01：</strong>灯光 OFF，风扇 ON</li>
+                <li><strong>状态 10：</strong>灯光 ON，风扇 OFF</li>
+                <li><strong>状态 11：</strong>灯光 ON，风扇 ON</li>
+            </ul>
+
+            <h3>4. 自动模式说明</h3>
+            <p>在自动模式下，设备根据传感器数据自动控制：</p>
+            <ul>
+                <li><strong>灯光控制：</strong>光照强度 < 设定阈值时自动点亮</li>
+                <li><strong>风扇控制：</strong>温度 > 设定阈值时自动开启</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>MQTT 远程控制</h2>
+            <p>设备成功连接 WiFi 后，会自动尝试连接 MQTT 服务器。连接成功后，可通过以下 MQTT 主题进行远程控制：</p>
+
+            <div class="code-block">
+                <p><span class="mqtt-topic">主题：</span>esp32c3/control/light</p>
+                <p><span class="mqtt-value">有效 payload：</span>ON / OFF</p>
+                <br>
+                <p><span class="mqtt-topic">主题：</span>esp32c3/control/fan</p>
+                <p><span class="mqtt-value">有效 payload：</span>ON / OFF</p>
+                <br>
+                <p><span class="mqtt-topic">主题：</span>esp32c3/control/mode</p>
+                <p><span class="mqtt-value">有效 payload：</span>AUTO / MANUAL</p>
+                <br>
+                <p><span class="mqtt-topic">主题：</span>esp32c3/status</p>
+                <p><span class="mqtt-value">发布内容：</span>{"light":"ON","fan":"OFF","temperature":25.5,"light_intensity":281,"mode":"AUTO"}</p>
+            </div>
+
+            <div class="warning">
+                ⚠️ <strong>注意：</strong>远程控制仅在 MQTT 连接成功后生效，显示屏会显示 [MQTT] 标识
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>工作流程图</h2>
+            <div class="flowchart">
+                <div class="flow-node">系统启动</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-node">扫描 WiFi</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-node">连接网络</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-node">连接 MQTT</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-node">自动模式运行</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>常见问题</h2>
+            <h3>Q1：设备无法连接 WiFi？</h3>
+            <p>A：请确保 WiFi 密码正确，设备支持 2.4GHz WiFi 网络，不支持 5GHz。</p>
+
+            <h3>Q2：MQTT 连接失败？</h3>
+            <p>A：请检查网络连接是否正常，确认 MQTT 服务器地址和端口配置正确。</p>
+
+            <h3>Q3：传感器数据显示异常？</h3>
+            <p>A：请检查传感器接线是否正确，重新启动设备尝试。</p>
+
+            <h3>Q4：按键无响应？</h3>
+            <p>A：请确认系统已启动（按 KEY1），检查按键接线是否松动。</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 化工控制实训装置 - 基于 ESP32C3</p>
+    </footer>
+</body>
+</html>
